@@ -205,15 +205,11 @@ class WgetArgs(object):
         if item_type == 'acomcasthome':
             wget_args.append('http://{0}.home.comcast.net/'.format(item_value))
             wget_args.append('http://home.comcast.net/~{0}/'.format(item_value))
-            wget_args.append('http://{0}.comcastbiz.net/'.format(item_value))
         elif item_type == 'comcasthomea':
             wget_args.append('http://home.comcast.net/~{0}/'.format(item_value))
-            wget_args.append('http://{0}.comcastbiz.net/'.format(item_value))
             wget_args.append('http://{0}.home.comcast.net/'.format(item_value))
         elif item_type == 'comcastbiznet':
             wget_args.append('http://{0}.comcastbiz.net/'.format(item_value))
-            wget_args.append('http://home.comcast.net/~{0}/'.format(item_value))
-            wget_args.append('http://{0}.home.comcast.net/'.format(item_value))
         elif item_type == 'comcastbizcom':
             wget_args.append('http://{0}.comcastbiz.com/'.format(item_value))
         else:
