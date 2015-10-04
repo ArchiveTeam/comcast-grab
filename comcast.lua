@@ -51,7 +51,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(urla)
     local url = string.match(urla, "^([^#]+)")
-    if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "home%.comcast%.") or string.match(url, "comcastbiz%.")) then
+    if (downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https://[^/]*home%.comcast%.[^/]*") or string.match(url, "^https://[^/]*comcastbiz%.[^/]*")) then
       if string.match(url, "&amp;") then
         table.insert(urls, { url=string.gsub(url, "&amp;", "&") })
         addedtolist[url] = true
@@ -75,7 +75,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     end
   end
   
-  if (string.match(url, "home%.comcast%.") or string.match(url, "comcastbiz%.")) and not (string.match(url, "%.mp4$") or string.match(url, "%.jpg$") or string.match(url, "%.gif$") or string.match(url, "%.avi$") or string.match(url, "%.flv$") or string.match(url, "%.pdf$") or string.match(url, "%.rm$") or string.match(url, "%.wmv$") or string.match(url, "%.jpeg$") or string.match(url, "%.swf$")) then
+  if (string.match(url, "^https?://[^/]*home%.comcast%.[^/]*") or string.match(url, "^https?://[^/]*comcastbiz%.[^/]*")) and not (string.match(url, "%.mp4$") or string.match(url, "%.jpg$") or string.match(url, "%.gif$") or string.match(url, "%.avi$") or string.match(url, "%.flv$") or string.match(url, "%.pdf$") or string.match(url, "%.rm$") or string.match(url, "%.wmv$") or string.match(url, "%.jpeg$") or string.match(url, "%.swf$")) then
     html = read_file(file)
     check(string.match(url, "^(https?://.+/)"))
     check(string.match(url, "^(https?://.+)/"))
@@ -121,6 +121,10 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   url_count = url_count + 1
   io.stdout:write(url_count .. "=" .. status_code .. " " .. url["url"] .. ".  \n")
   io.stdout:flush()
+
+  if downloaded[url["url"]] == true then
+    return wget.actions.EXIT
+  end
 
   if (status_code >= 200 and status_code <= 399) then
     if string.match(url.url, "https://") then
