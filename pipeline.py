@@ -57,7 +57,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20151004.01"
+VERSION = "20151004.02"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'comcast'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -205,11 +205,15 @@ class WgetArgs(object):
         if item_type == 'acomcasthome':
             wget_args.append('http://{0}.home.comcast.net/'.format(item_value))
             wget_args.append('http://home.comcast.net/~{0}/'.format(item_value))
+            wget_args.append('http://{0}.comcastbiz.net/'.format(item_value))
         elif item_type == 'comcasthomea':
             wget_args.append('http://home.comcast.net/~{0}/'.format(item_value))
+            wget_args.append('http://{0}.comcastbiz.net/'.format(item_value))
             wget_args.append('http://{0}.home.comcast.net/'.format(item_value))
         elif item_type == 'comcastbiznet':
             wget_args.append('http://{0}.comcastbiz.net/'.format(item_value))
+            wget_args.append('http://home.comcast.net/~{0}/'.format(item_value))
+            wget_args.append('http://{0}.home.comcast.net/'.format(item_value))
         elif item_type == 'comcastbizcom':
             wget_args.append('http://{0}.comcastbiz.com/'.format(item_value))
         else:
@@ -247,7 +251,7 @@ pipeline = Pipeline(
     WgetDownload(
         WgetArgs(),
         max_tries=2,
-        accept_on_exit_code=[0, 4, 8],
+        accept_on_exit_code=[0, 4, 6, 8],
         env={
             "item_dir": ItemValue("item_dir"),
             "item_value": ItemValue("item_value"),
