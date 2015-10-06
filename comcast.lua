@@ -146,7 +146,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
       io.stdout:flush()
       tries = 0
       if (item_type == "comcasthomea" and string.match(url["url"], "^https?://home%.comcast%.net/~")) or (item_type == "acomcasthome" and string.match(url["url"], "^https?://[^%.]+%.home%.comcast%.net")) or (item_type == "comcastbiznet" and string.match(url["url"], "^https?://[^%.]+%.comcastbiz%.net")) or (item_type == "comcastbiznet" and string.match(url["url"], "^https?://[^%.]+%.comcastbiz%.com")) then
-        return wget.actions.ABORT
+        return wget.actions.EXIT
       else
         return wget.actions.EXIT
       end
