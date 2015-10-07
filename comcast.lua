@@ -33,7 +33,7 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
   end
   
   if downloaded[url] ~= true and addedtolist[url] ~= true then
-    if (string.match(url, "home%.comcast%.") or string.match(url, "comcastbiz%.") or html == 0) and not string.match(url, "///") then
+    if (string.match(url, "^https?://[^/]*home%.comcast%.") or string.match(url, "^https?://[^/]*comcastbiz%.") or html == 0) and not string.match(url, "///") then
       addedtolist[url] = true
       return true
     else
@@ -51,7 +51,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   local function check(urla)
     local url = string.match(urla, "^([^#]+)")
-    if ((downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https://[^/]*home%.comcast%.[^/]*") or string.match(url, "^https://[^/]*comcastbiz%.[^/]*"))) and not string.match(url, "///") then
+    if ((downloaded[url] ~= true and addedtolist[url] ~= true) and (string.match(url, "^https://[^/]*home%.comcast%.") or string.match(url, "^https://[^/]*comcastbiz%."))) and not string.match(url, "///") then
       if string.match(url, "&amp;") then
         table.insert(urls, { url=string.gsub(url, "&amp;", "&") })
         addedtolist[url] = true
